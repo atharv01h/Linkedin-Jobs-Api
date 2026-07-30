@@ -1,0 +1,20 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "linkedin-jobs-api"
+version = "2.0.0"
+description = "Official Python SDK for LinkedIn Jobs API"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+  { name = "Atharv Hatwar", email = "atharv@example.com" },
+]
+dependencies = [
+    "requests>=2.28.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/atharv01h/Linkedin-Jobs-Api"

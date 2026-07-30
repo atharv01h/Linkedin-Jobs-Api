@@ -1,129 +1,129 @@
-# LinkedIn Jobs API
+# LinkedIn Jobs API - Modernized 🚀
 
-An unofficial API to fetch job listings from LinkedIn. This API allows you to search for jobs using keywords, location, and date filters.
+![License](https://img.shields.io/badge/License-MIT-blue.svg)
+![Node.js](https://img.shields.io/badge/Node.js-v18%2B-green.svg)
+![TypeScript](https://img.shields.io/badge/TypeScript-Strict-blue)
 
-Created by: **Atharv Hatwar**
+A production-grade, enterprise-ready, open-source REST API and multi-language SDK platform to fetch job listings from LinkedIn without requiring authentication.
 
-[![npm version](https://img.shields.io/npm/v/@atharvh01/linkedin-jobs-api.svg)](https://www.npmjs.com/package/@atharvh01/linkedin-jobs-api)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+## Disclaimer ⚠️
+**This is an unofficial API.** LinkedIn frequently updates its layout, selectors, and anti-bot measures. This scraper uses advanced stealth techniques (via Puppeteer) but may occasionally experience limitations. Some features (like fetching complete individual job descriptions) may have limited data availability compared to a logged-in session. Use responsibly and within legal and ethical boundaries.
 
-## Features
+## Features ✨
+- **RESTful API**: Clean, well-documented endpoints.
+- **Robust Scraper**: Built with `puppeteer-extra-plugin-stealth` for evasion.
+- **Rate Limiting & Security**: Protected by Helmet and Express Rate Limiters.
+- **Multi-Language SDKs**: Native clients for **JavaScript**, **Python**, and **Java**.
+- **Pagination & Filtering**: Search by keywords, location, and date.
+- **OpenAPI / Swagger**: Auto-generated interactive API docs.
+- **Docker Ready**: Designed for containerized deployments.
 
-- 🔍 Search jobs by keywords
-- 📍 Filter by location
-- 📅 Filter by posting date
-- 🧹 Clean and formatted job data
-- 🌐 CORS enabled
-- ⚠️ Error handling
-- 🛡️ Rate limiting protection
+---
 
-## Installation
+## Architecture 🏗️
+
+This repository is structured as a monorepo containing the backend service and multiple SDKs:
+
+- `backend/` - The core REST API and Puppeteer Scraper engine (TypeScript, Express).
+- `sdk-javascript/` - Official JavaScript/TypeScript SDK for the npm ecosystem.
+- `sdk-python/` - Official Python SDK (`requests` based).
+- `sdk-java/` - Official Java SDK (Java 17, `HttpClient`).
+
+---
+
+## Quick Start 🚦
+
+### 1. Run the Backend API
+
+Make sure you have Node.js 18+ installed.
 
 ```bash
-npm install @atharvh01/linkedin-jobs-api
+# Install dependencies
+npm install
+
+# Run the development server
+npm run dev --workspace=backend
 ```
 
-## Quick Start
+The API will start on `http://localhost:3000`.
+Visit the **Swagger Docs** at: `http://localhost:3000/api/v1/docs`
 
-```javascript
-import express from 'express';
-import { searchJobs } from '@atharvh01/linkedin-jobs-api';
+---
 
-const app = express();
-const PORT = 3000;
+## SDK Usage Examples 💻
 
-app.get('/api/search', searchJobs);
+### JavaScript / TypeScript
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+```typescript
+import { LinkedInJobsClient } from '@atharvh01/linkedin-jobs-api';
+
+const client = new LinkedInJobsClient({ baseURL: 'http://localhost:3000/api/v1' });
+
+async function search() {
+  const response = await client.searchJobs({
+    keywords: 'Software Engineer',
+    location: 'Remote',
+    dateSincePosted: 'past_24h'
+  });
+  
+  console.log(`Found ${response.metadata.count} jobs!`);
+  console.log(response.jobs);
+}
 ```
 
-## API Endpoints
+### Python
 
-### Search Jobs
-```
-GET /api/search
+```python
+from linkedin_jobs_api import LinkedInJobsClient
+
+client = LinkedInJobsClient(base_url="http://localhost:3000/api/v1")
+
+response = client.search_jobs(
+    keywords="Data Scientist",
+    location="New York",
+    date_since_posted="past_week"
+)
+
+print(f"Found {response['metadata']['count']} jobs!")
+for job in response['jobs']:
+    print(job['title'], job['company'])
 ```
 
-#### Query Parameters
+### Java
+
+```java
+import com.linkedin.jobs.api.LinkedInJobsClient;
+import com.fasterxml.jackson.databind.JsonNode;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        LinkedInJobsClient client = LinkedInJobsClient.builder()
+                .baseUrl("http://localhost:3000/api/v1")
+                .build();
+                
+        JsonNode response = client.searchJobs("Backend Developer", "San Francisco", "past_month", 1);
+        System.out.println("Jobs found: " + response.get("metadata").get("count").asInt());
+    }
+}
+```
+
+---
+
+## API Endpoints 📡
+
+### `GET /api/v1/jobs/search`
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| keywords | string | Yes | Search terms (e.g., "react developer") |
-| location | string | Yes | Job location (e.g., "remote", "Pune") |
-| dateSincePosted | string | No | Filter by post date (past_24h, past_week, past_month) |
+| `keywords` | string | No | Search keywords (e.g. "developer") |
+| `location` | string | No | Location (e.g. "London") |
+| `dateSincePosted` | string | No | `past_24h`, `past_week`, or `past_month` |
+| `page` | integer | No | Pagination offset (default 1) |
 
-#### Example Request
-```bash
-GET /api/search?keywords=react&location=remote&dateSincePosted=past_24h
-```
+---
 
-#### Example Response
-```json
-{
-  "success": true,
-  "count": 2,
-  "jobs": [
-    {
-      "title": "Senior React Developer",
-      "company": "Example Corp",
-      "location": "Remote",
-      "link": "https://www.linkedin.com/jobs/view/123456789",
-      "postedDate": "2023-12-20T10:00:00.000Z",
-      "description": "We are looking for a Senior React Developer..."
-    }
-  ]
-}
-```
+## Contributing 🤝
+Contributions are welcome! Please check `CONTRIBUTING.md` for guidelines.
 
-## Error Handling
-
-The API returns appropriate error messages and status codes:
-
-```json
-{
-  "success": false,
-  "error": {
-    "message": "Keywords parameter is required",
-    "status": 400
-  }
-}
-```
-
-## Rate Limiting
-
-To prevent abuse, the API implements rate limiting:
-- 100 requests per hour per IP
-- Customizable limits through configuration
-
-## Testing
-
-```bash
-# Run the test suite
-npm test
-
-# Test specific endpoints
-npm run test:api
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Author
-
-**Atharv Hatwar**
-- GitHub: [atharvhatwar](https://github.com/atharv01h)
-
-## Legal Notice
-
-This package is for educational purposes only. Please review LinkedIn's terms of service before using this API in production.
+## License 📜
+MIT License - see LICENSE file for details.
