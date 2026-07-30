@@ -1,6 +1,6 @@
 {
   "name": "@atharvh01/linkedin-jobs-api",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Official JavaScript/TypeScript SDK for LinkedIn Jobs API",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
