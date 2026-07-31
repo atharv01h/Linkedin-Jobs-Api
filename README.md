@@ -1,4 +1,4 @@
-# LinkedIn Jobs API - Modernized 🚀
+# LinkedIn Jobs API 
 
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Node.js](https://img.shields.io/badge/Node.js-v18%2B-green.svg)
