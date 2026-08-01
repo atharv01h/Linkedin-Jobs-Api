@@ -1,8 +1,9 @@
 # LinkedIn Jobs API 
 
-![License](https://img.shields.io/badge/License-MIT-blue.svg)
-![Node.js](https://img.shields.io/badge/Node.js-v18%2B-green.svg)
-![TypeScript](https://img.shields.io/badge/TypeScript-Strict-blue)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![PyPI version](https://badge.fury.io/py/linkedin-jobs-api.svg)](https://badge.fury.io/py/linkedin-jobs-api)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.atharv01h.linkedin.jobs/linkedin-jobs-api.svg)](https://central.sonatype.com/artifact/io.github.atharv01h.linkedin.jobs/linkedin-jobs-api)
+[![Node.js](https://img.shields.io/badge/Node.js-v18%2B-green.svg)](https://nodejs.org/)
 
 A production-grade, enterprise-ready, open-source REST API and multi-language SDK platform to fetch job listings from LinkedIn without requiring authentication.
 
@@ -21,11 +22,6 @@ A production-grade, enterprise-ready, open-source REST API and multi-language SD
 ---
 
 ## Installation
-
-### Node.js / JavaScript
-```bash
-npm install linkedin-jobs-api-backend
-```
 
 ### Python
 ```bash
@@ -46,6 +42,11 @@ Add the following dependency to your `pom.xml`:
 Add the following to your `build.gradle`:
 ```gradle
 implementation 'io.github.atharv01h.linkedin.jobs:linkedin-jobs-api:2.0.0'
+```
+
+### Node.js / JavaScript
+```bash
+npm install linkedin-jobs-api-backend
 ```
 
 ---
@@ -82,27 +83,7 @@ Visit the **Swagger Docs** at: `http://localhost:3000/api/v1/docs`
 
 ## SDK Usage Examples 💻
 
-### JavaScript / TypeScript
-
-```typescript
-import { LinkedInJobsClient } from '@atharvh01/linkedin-jobs-api';
-
-const client = new LinkedInJobsClient({ baseURL: 'http://localhost:3000/api/v1' });
-
-async function search() {
-  const response = await client.searchJobs({
-    keywords: 'Software Engineer',
-    location: 'Remote',
-    dateSincePosted: 'past_24h'
-  });
-  
-  console.log(`Found ${response.metadata.count} jobs!`);
-  console.log(response.jobs);
-}
-```
-
 ### Python
-
 ```python
 from linkedin_jobs_api import LinkedInJobsClient
 
@@ -120,7 +101,6 @@ for job in response['jobs']:
 ```
 
 ### Java
-
 ```java
 import com.linkedin.jobs.api.LinkedInJobsClient;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -134,6 +114,24 @@ public class Main {
         JsonNode response = client.searchJobs("Backend Developer", "San Francisco", "past_month", 1);
         System.out.println("Jobs found: " + response.get("metadata").get("count").asInt());
     }
+}
+```
+
+### JavaScript / TypeScript
+```typescript
+import { LinkedInJobsClient } from '@atharvh01/linkedin-jobs-api';
+
+const client = new LinkedInJobsClient({ baseURL: 'http://localhost:3000/api/v1' });
+
+async function search() {
+  const response = await client.searchJobs({
+    keywords: 'Software Engineer',
+    location: 'Remote',
+    dateSincePosted: 'past_24h'
+  });
+  
+  console.log(`Found ${response.metadata.count} jobs!`);
+  console.log(response.jobs);
 }
 ```
 
