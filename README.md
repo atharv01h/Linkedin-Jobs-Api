@@ -20,6 +20,36 @@ A production-grade, enterprise-ready, open-source REST API and multi-language SD
 
 ---
 
+## Installation
+
+### Node.js / JavaScript
+```bash
+npm install linkedin-jobs-api-backend
+```
+
+### Python
+```bash
+pip install linkedin-jobs-api
+```
+
+### Java (Maven)
+Add the following dependency to your `pom.xml`:
+```xml
+<dependency>
+    <groupId>io.github.atharv01h.linkedin.jobs</groupId>
+    <artifactId>linkedin-jobs-api</artifactId>
+    <version>2.0.0</version>
+</dependency>
+```
+
+### Java (Gradle)
+Add the following to your `build.gradle`:
+```gradle
+implementation 'io.github.atharv01h.linkedin.jobs:linkedin-jobs-api:2.0.0'
+```
+
+---
+
 ## Architecture 🏗️
 
 This repository is structured as a monorepo containing the backend service and multiple SDKs:

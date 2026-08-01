@@ -2,6 +2,11 @@
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+[project.urls]
+Homepage = "https://github.com/atharv01h/Linkedin-Jobs-Api"
+Repository = "https://github.com/atharv01h/Linkedin-Jobs-Api"
+"Bug Tracker" = "https://github.com/atharv01h/Linkedin-Jobs-Api/issues"
+
 [project]
 name = "linkedin-jobs-api"
 version = "2.0.0"
@@ -12,9 +17,17 @@ license = { text = "MIT" }
 authors = [
   { name = "Atharv Hatwar", email = "atharv@example.com" },
 ]
+keywords = ["linkedin", "jobs", "api", "sdk", "scraper"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
 dependencies = [
     "requests>=2.28.0",
 ]
-
-[project.urls]
-Homepage = "https://github.com/atharv01h/Linkedin-Jobs-Api"
