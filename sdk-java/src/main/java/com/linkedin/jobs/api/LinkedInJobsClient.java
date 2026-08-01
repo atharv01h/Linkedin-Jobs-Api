@@ -4,6 +4,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Optional;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -20,6 +22,7 @@ public class LinkedInJobsClient {
         this.baseUrl = builder.baseUrl != null ? builder.baseUrl : "http://localhost:3000/api/v1";
         this.retries = builder.retries > 0 ? builder.retries : 3;
         this.httpClient = HttpClient.newBuilder()
+                .version(HttpClient.Version.HTTP_1_1)
                 .connectTimeout(Duration.ofSeconds(builder.timeoutSeconds > 0 ? builder.timeoutSeconds : 10))
                 .build();
         this.objectMapper = new ObjectMapper();
@@ -55,15 +58,16 @@ public class LinkedInJobsClient {
     }
 
     public JsonNode searchJobs(String keywords, String location, String dateSincePosted, int page) throws Exception {
-        StringBuilder urlBuilder = new StringBuilder(baseUrl).append("/jobs/search?");
+        String basePath = baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
+        StringBuilder urlBuilder = new StringBuilder(basePath).append("/jobs/search?");
         if (keywords != null && !keywords.isEmpty()) {
-            urlBuilder.append("keywords=").append(keywords).append("&");
+            urlBuilder.append("keywords=").append(URLEncoder.encode(keywords, StandardCharsets.UTF_8)).append("&");
         }
         if (location != null && !location.isEmpty()) {
-            urlBuilder.append("location=").append(location).append("&");
+            urlBuilder.append("location=").append(URLEncoder.encode(location, StandardCharsets.UTF_8)).append("&");
         }
         if (dateSincePosted != null && !dateSincePosted.isEmpty()) {
-            urlBuilder.append("dateSincePosted=").append(dateSincePosted).append("&");
+            urlBuilder.append("dateSincePosted=").append(URLEncoder.encode(dateSincePosted, StandardCharsets.UTF_8)).append("&");
         }
         urlBuilder.append("page=").append(page);
 
@@ -81,7 +85,7 @@ public class LinkedInJobsClient {
                 if (response.statusCode() >= 200 && response.statusCode() < 300) {
                     return objectMapper.readTree(response.body());
                 } else if (response.statusCode() >= 400 && response.statusCode() < 500 && response.statusCode() != 429) {
-                    throw new RuntimeException("Client error: " + response.statusCode() + " - " + response.body());
+                    throw new RuntimeException("Client error for URI " + request.uri().toString() + ": " + response.statusCode() + " - " + response.body());
                 }
                 
                 if (response.statusCode() == 429) {
