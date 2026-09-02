@@ -9,7 +9,7 @@ Repository = "https://github.com/atharv01h/Linkedin-Jobs-Api"
 
 [project]
 name = "linkedin-jobs-api"
-version = "2.0.0"
+version = "2.1.0"
 description = "Official Python SDK for LinkedIn Jobs API"
 readme = "README.md"
 requires-python = ">=3.10"
