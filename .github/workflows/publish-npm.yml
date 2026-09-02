@@ -1,0 +1,32 @@
+name: Publish JS SDK
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        working-directory: ./sdk-javascript
+        run: npm ci
+
+      - name: Build SDK
+        working-directory: ./sdk-javascript
+        run: npm run build
+
+      - name: Publish to npm
+        working-directory: ./sdk-javascript
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
