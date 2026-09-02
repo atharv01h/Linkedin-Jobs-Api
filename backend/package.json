@@ -1,6 +1,6 @@
 {
   "name": "@atharvh01/linkedin-jobs-api-backend",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "REST API for LinkedIn Jobs Scraper",
   "main": "dist/server.js",
   "scripts": {
